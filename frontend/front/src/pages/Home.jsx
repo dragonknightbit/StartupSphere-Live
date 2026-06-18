@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Rocket, TrendingUp, Users, Bot } from 'lucide-react';
 
 function Home() {
   return (
@@ -14,7 +15,7 @@ function Home() {
           
           {/* Left Text Content */}
           <div className="col-lg-6 mb-5 mb-lg-0 pe-lg-5">
-            <h1 className="display-2 fw-bold mb-4 fade-in-up">
+            <h1 className="display-2 fw-bold mb-4 fade-in-up text-white">
               Welcome to <br />
               <span className="text-gradient">StartupSphere</span>
             </h1>
@@ -24,8 +25,8 @@ function Home() {
             </p>
             
             <div className="d-flex flex-wrap gap-3 fade-in-up delay-200">
-              <Link to="/ai-evaluator" className="btn-hero-primary text-decoration-none">
-                <i className="bi bi-robot me-2"></i> Try AI Evaluator
+              <Link to="/ai-evaluator" className="btn-hero-primary text-decoration-none d-flex align-items-center">
+                <Bot size={20} className="me-2" /> Try AI Evaluator
               </Link>
               <Link to="/startups" className="btn-hero-secondary text-decoration-none">
                 Explore Startups
@@ -41,7 +42,7 @@ function Home() {
               <div className="col-sm-6">
                 <div className="hero-glass-card h-100">
                   <div className="hero-icon-wrapper text-gradient">
-                    <i className="bi bi-rocket-takeoff"></i>
+                    <Rocket size={32} />
                   </div>
                   <h3 className="h4 fw-bold mb-3 text-white">For Founders</h3>
                   <p className="text-light opacity-75 mb-0">
@@ -54,7 +55,7 @@ function Home() {
               <div className="col-sm-6">
                 <div className="hero-glass-card h-100 mt-sm-5">
                   <div className="hero-icon-wrapper text-gradient-secondary">
-                    <i className="bi bi-graph-up-arrow"></i>
+                    <TrendingUp size={32} />
                   </div>
                   <h3 className="h4 fw-bold mb-3 text-white">For Investors</h3>
                   <p className="text-light opacity-75 mb-0">
@@ -67,8 +68,8 @@ function Home() {
               <div className="col-12">
                 <div className="hero-glass-card">
                   <div className="d-flex align-items-center mb-3">
-                    <div className="hero-icon-wrapper text-warning mb-0 me-3" style={{ width: '45px', height: '45px', fontSize: '1.2rem' }}>
-                      <i className="bi bi-person-video3"></i>
+                    <div className="hero-icon-wrapper text-warning mb-0 me-3" style={{ width: '45px', height: '45px' }}>
+                      <Users size={24} />
                     </div>
                     <h3 className="h4 fw-bold mb-0 text-white">For Mentors</h3>
                   </div>
