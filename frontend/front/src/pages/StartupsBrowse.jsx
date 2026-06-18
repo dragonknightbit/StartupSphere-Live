@@ -9,8 +9,11 @@ function StartupsBrowse() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchStartups();
-  }, [domain, stage]); // refetch when filters change
+    const delayDebounceFn = setTimeout(() => {
+      fetchStartups();
+    }, 300);
+    return () => clearTimeout(delayDebounceFn);
+  }, [domain, stage, search]);
 
   const fetchStartups = async () => {
     try {
