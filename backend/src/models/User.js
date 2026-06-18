@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     },
 
     email: {
-      type: String,
+        type: String,
       required: [true, "Email is required"],
       unique: true,
       lowercase: true,
@@ -50,10 +50,24 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+    // Investor specific fields for recommendations
+    preferredDomains: {
+      type: [String],
+      default: [],
+    },
+
+    preferredStages: {
+      type: [String],
+      default: [],
+    },
   },
   {
     timestamps: true,
   }
 );
+
+// Index for faster admin queries
+userSchema.index({ role: 1 });
 
 module.exports = mongoose.model("User", userSchema);

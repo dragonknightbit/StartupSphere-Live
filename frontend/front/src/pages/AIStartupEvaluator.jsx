@@ -28,7 +28,7 @@ function AIStartupEvaluator() {
 
         try {
             // Call your actual backend API!
-            const response = await axios.post("http://localhost:5000/api/ai/evaluate", formData);
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/api/ai/evaluate`, formData);
             setResult(response.data);
         } catch (err) {
             console.error(err);

@@ -91,6 +91,11 @@ const startupSchema = new mongoose.Schema(
   }
 );
 
+// Indexes for recommendation matching and filtering
+startupSchema.index({ domain: 1 });
+startupSchema.index({ stage: 1 });
+startupSchema.index({ status: 1 });
+
 module.exports = mongoose.model(
   "Startup",
   startupSchema
