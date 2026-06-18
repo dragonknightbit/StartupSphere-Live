@@ -254,7 +254,7 @@ function StartupDashboard() {
                   <input type="text" name="users" value={formData.users} onChange={handleChange} className="form-control bg-light border-0" placeholder="Who are your primary users?" required />
                 </div>
                 <div className="col-md-6">
-                  <label className="form-label fw-bold text-success">Funding Needed ($)</label>
+                  <label className="form-label fw-bold text-success">Funding Needed (₹)</label>
                   <input type="number" name="fundingRequired" value={formData.fundingRequired} onChange={handleChange} className="form-control bg-light border-0" placeholder="e.g. 50000" min="0" required />
                 </div>
               </div>

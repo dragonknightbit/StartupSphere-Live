@@ -89,7 +89,7 @@ function InvestorDashboard() {
         <div className="d-flex align-items-center justify-content-between">
           <div>
             <span className="text-muted small d-block">Seeking</span>
-            <span className="fw-bold fs-5 text-dark">${startup.fundingRequired.toLocaleString()}</span>
+            <span className="fw-bold fs-5 text-dark">₹{startup.fundingRequired.toLocaleString('en-IN')}</span>
           </div>
           {startup.aiScore && (
             <div className="text-end">

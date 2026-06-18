@@ -109,7 +109,7 @@ function StartupsBrowse() {
                     <div className="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
                       <div>
                         <small className="text-muted d-block">Funding Needed</small>
-                        <span className="text-success fw-bold fs-5">${startup.fundingRequired?.toLocaleString() || 0}</span>
+                        <span className="text-success fw-bold fs-5">₹{startup.fundingRequired?.toLocaleString('en-IN') || 0}</span>
                       </div>
                       
                       {startup.pitchDeck ? (
