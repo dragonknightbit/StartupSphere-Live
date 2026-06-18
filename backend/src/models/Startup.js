@@ -45,6 +45,11 @@ const startupSchema = new mongoose.Schema(
       default: 0,
     },
 
+    fundingRaised: {
+      type: Number,
+      default: 0,
+    },
+
     teamSize: {
       type: Number,
       default: 1,

@@ -10,7 +10,9 @@ function InvestorDashboard() {
   const [domain, setDomain] = useState("");
   const [stage, setStage] = useState("");
   const [interestForm, setInterestForm] = useState(null); // startupId
+  const [investForm, setInvestForm] = useState(null); // startupId
   const [message, setMessage] = useState("");
+  const [investAmount, setInvestAmount] = useState("");
 
   const user = JSON.parse(localStorage.getItem('user')) || { name: 'Investor', role: 'investor' };
 
@@ -71,6 +73,25 @@ function InvestorDashboard() {
     }
   };
 
+  const handleInvest = async (e, startupId) => {
+    e.preventDefault();
+    try {
+      await API.post("/investor/invest", {
+        startupId: investForm,
+        amount: Number(investAmount)
+      });
+      alert("Investment successful!");
+      setInvestForm(null);
+      setInvestAmount("");
+      fetchStartups();
+      fetchRecommendations();
+      fetchMyInterests();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to invest.");
+    }
+  };
+
   const renderStartupCard = (startup, isRecommended = false) => (
     <div className="startup-card h-100" key={startup._id}>
       <div className="startup-card-header">
@@ -91,12 +112,10 @@ function InvestorDashboard() {
             <span className="text-muted small d-block">Seeking</span>
             <span className="fw-bold fs-5 text-dark">₹{startup.fundingRequired.toLocaleString('en-IN')}</span>
           </div>
-          {startup.aiScore && (
-            <div className="text-end">
-              <span className="text-muted small d-block">AI Score</span>
-              <span className="fw-bold text-primary">{startup.aiScore.innovation}/100</span>
-            </div>
-          )}
+          <div className="text-end">
+            <span className="text-muted small d-block">Raised</span>
+            <span className="fw-bold text-success">₹{(startup.fundingRaised || 0).toLocaleString('en-IN')}</span>
+          </div>
         </div>
 
         {interestForm === startup._id ? (
@@ -114,10 +133,34 @@ function InvestorDashboard() {
               <button type="button" className="btn btn-light btn-sm flex-grow-1 border" onClick={() => setInterestForm(null)}>Cancel</button>
             </div>
           </form>
+        ) : investForm === startup._id ? (
+          <form onSubmit={handleInvest} className="mt-4 border-top pt-3">
+            <div className="input-group mb-2">
+              <span className="input-group-text bg-light border-end-0">₹</span>
+              <input 
+                type="number" 
+                className="form-control border-start-0 ps-0" 
+                placeholder="Investment Amount" 
+                value={investAmount}
+                onChange={e => setInvestAmount(e.target.value)}
+                required
+                min="1000"
+              />
+            </div>
+            <div className="d-flex gap-2">
+              <button type="submit" className="btn btn-success btn-sm flex-grow-1">Confirm Investment</button>
+              <button type="button" className="btn btn-light btn-sm flex-grow-1 border" onClick={() => setInvestForm(null)}>Cancel</button>
+            </div>
+          </form>
         ) : (
-          <button className="btn btn-premium w-100 mt-4" onClick={() => setInterestForm(startup._id)}>
-            Express Interest
-          </button>
+          <div className="d-flex gap-2 mt-4">
+            <button className="btn btn-outline-premium flex-grow-1" onClick={() => setInterestForm(startup._id)}>
+              Express Interest
+            </button>
+            <button className="btn btn-premium flex-grow-1" onClick={() => setInvestForm(startup._id)}>
+              Invest
+            </button>
+          </div>
         )}
       </div>
     </div>
@@ -203,9 +246,12 @@ function InvestorDashboard() {
                     <div className="d-flex justify-content-between align-items-start mb-2">
                       <h6 className="fw-bold mb-0">{interest.startupId?.title}</h6>
                       <span className={`badge badge-premium ${interest.status === 'interested' ? 'bg-primary-soft text-primary' : 'bg-success text-white'}`}>
-                        {interest.status}
+                        {interest.status === 'invested' ? 'Invested' : interest.status}
                       </span>
                     </div>
+                    {interest.status === 'invested' && (
+                      <p className="small text-success fw-bold mb-1">Amount: ₹{(interest.investmentAmount || 0).toLocaleString('en-IN')}</p>
+                    )}
                     <p className="small text-muted mb-0 text-truncate">{interest.message}</p>
                   </li>
                 ))

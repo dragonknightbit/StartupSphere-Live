@@ -47,6 +47,36 @@ const getMyInterests = async (req, res) => {
   }
 };
 
+const investMoney = async (req, res) => {
+  try {
+    const { startupId, amount } = req.body;
+    
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ message: "Invalid investment amount" });
+    }
+
+    // Record the investment
+    const investment = await InvestorInterest.create({
+      investorId: req.user._id,
+      startupId,
+      message: `Invested ₹${amount.toLocaleString('en-IN')}`,
+      investmentAmount: amount,
+      status: 'invested'
+    });
+
+    // Update the startup's total funding raised
+    const updatedStartup = await Startup.findByIdAndUpdate(
+      startupId,
+      { $inc: { fundingRaised: amount } },
+      { new: true }
+    ).populate("founder", "name email role");
+
+    res.status(201).json({ investment, startup: updatedStartup });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const getRecommendedStartups = async (req, res, next) => {
   try {
     const user = req.user; // from auth middleware
@@ -77,5 +107,6 @@ module.exports = {
   browseStartups,
   expressInterest,
   getMyInterests,
-  getRecommendedStartups
+  getRecommendedStartups,
+  investMoney
 };

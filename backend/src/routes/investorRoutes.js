@@ -5,7 +5,8 @@ const {
   browseStartups,
   expressInterest,
   getMyInterests,
-  getRecommendedStartups
+  getRecommendedStartups,
+  investMoney
 } = require('../controllers/investorController');
 
 const router = express.Router();
@@ -14,6 +15,7 @@ router.use(protect, authorize('investor'));
 
 router.get('/startups', browseStartups);
 router.post('/interest', expressInterest);
+router.post('/invest', investMoney);
 router.get('/my-interests', getMyInterests);
 router.get('/recommendations', getRecommendedStartups);
 
