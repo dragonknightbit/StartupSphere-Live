@@ -166,6 +166,9 @@ function InvestorDashboard() {
     </div>
   );
 
+  const myInvestments = myInterests.filter(i => i.status === 'invested');
+  const activeInterests = myInterests.filter(i => i.status === 'interested');
+
   return (
     <DashboardLayout role="investor" userName={user.name}>
       
@@ -177,6 +180,32 @@ function InvestorDashboard() {
           </h4>
           <div className="startup-grid">
             {recommendations.map(s => renderStartupCard(s, true))}
+          </div>
+        </div>
+      )}
+
+      {/* My Investment Portfolio */}
+      {myInvestments.length > 0 && (
+        <div className="mb-5">
+          <h4 className="fw-bold mb-3 d-flex align-items-center gap-2">
+            <span>💼</span> My Investment Portfolio
+          </h4>
+          <div className="row g-4">
+            {myInvestments.map(investment => (
+              <div className="col-md-4" key={investment._id}>
+                <div className="metric-card p-4 h-100 border-start border-success border-4">
+                  <h5 className="fw-bold mb-1 text-truncate">{investment.startupId?.title}</h5>
+                  <span className="badge badge-premium bg-primary-soft text-primary mb-3">{investment.startupId?.domain}</span>
+                  
+                  <div className="d-flex justify-content-between align-items-end mt-2">
+                    <div>
+                      <span className="text-muted small d-block">Amount Invested</span>
+                      <span className="fw-bold fs-4 text-success">₹{(investment.investmentAmount || 0).toLocaleString('en-IN')}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -238,20 +267,17 @@ function InvestorDashboard() {
               <h5 className="fw-bold mb-0">My Active Interests</h5>
             </div>
             <ul className="list-group list-group-flush">
-              {myInterests.length === 0 ? (
+              {activeInterests.length === 0 ? (
                 <li className="list-group-item p-4 text-muted text-center border-0">No active interests.</li>
               ) : (
-                myInterests.map(interest => (
+                activeInterests.map(interest => (
                   <li className="list-group-item p-4 border-bottom" key={interest._id}>
                     <div className="d-flex justify-content-between align-items-start mb-2">
                       <h6 className="fw-bold mb-0">{interest.startupId?.title}</h6>
-                      <span className={`badge badge-premium ${interest.status === 'interested' ? 'bg-primary-soft text-primary' : 'bg-success text-white'}`}>
-                        {interest.status === 'invested' ? 'Invested' : interest.status}
+                      <span className="badge badge-premium bg-primary-soft text-primary">
+                        {interest.status}
                       </span>
                     </div>
-                    {interest.status === 'invested' && (
-                      <p className="small text-success fw-bold mb-1">Amount: ₹{(interest.investmentAmount || 0).toLocaleString('en-IN')}</p>
-                    )}
                     <p className="small text-muted mb-0 text-truncate">{interest.message}</p>
                   </li>
                 ))
