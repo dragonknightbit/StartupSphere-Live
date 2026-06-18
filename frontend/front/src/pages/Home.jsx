@@ -40,7 +40,7 @@ function Home() {
               
               {/* Feature 1 */}
               <div className="col-sm-6">
-                <div className="hero-glass-card h-100">
+                <div className="hero-glass-card h-100 d-flex flex-column">
                   <div className="hero-icon-wrapper text-gradient">
                     <Rocket size={32} />
                   </div>
@@ -53,7 +53,7 @@ function Home() {
 
               {/* Feature 2 */}
               <div className="col-sm-6">
-                <div className="hero-glass-card h-100 mt-sm-5">
+                <div className="hero-glass-card h-100 d-flex flex-column">
                   <div className="hero-icon-wrapper text-gradient-secondary">
                     <TrendingUp size={32} />
                   </div>
