@@ -46,7 +46,10 @@ const getMyStartups = async (req, res) => {
       mentorId: req.user._id,
       status: 'accepted'
     }).populate('startupId');
-    res.status(200).json(acceptedRequests);
+    
+    // Filter out requests where the startup was deleted
+    const validRequests = acceptedRequests.filter(req => req.startupId != null);
+    res.status(200).json(validRequests);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
